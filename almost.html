@@ -17,52 +17,59 @@
     <h4 class="text-style-news">Paypal Payment Platform</h4>
     <button
       class="btn btn-sm btn-danger Paypal"
-      data-id="10"
+      data-id="25"
       style="margin-right: 15px"
     >
-      $50
-    </button>
-    <button
-      class="btn btn-sm btn-danger Paypal"
-      data-id="20"
-      style="margin-right: 15px"
-    >
-      $100
+      $25
     </button>
     <button
       class="btn btn-sm btn-danger Paypal"
       data-id="50"
       style="margin-right: 15px"
     >
-      $500
+      $50
     </button>
-    <button class="btn btn-sm btn-danger Paypal" data-id="100">$100</button>
-    <div class="options">
-      <label for="pet-select">Choose a program to support (optional)</label>
+    <button
+      class="btn btn-sm btn-danger Paypal"
+      data-id="100"
+      style="margin-right: 15px"
+    >
+      $100
+    </button>
+    <button class="btn btn-sm btn-danger Paypal" data-id="500">$500</button>
+
+    <div class="Paypal">
+      <label for="availablePrograms">Choose a program to support (optional)</label>
       <select id="programSelect">
-        <option value="No Prgram Selected" data-id="No Prgram Selected">
+        <option class="Paypal programSelect" name="No Prgram Selected" value="No Prgram Selected" data-id="No Prgram Selected">
           --(Optional) Use this donation for--
         </option>
-        <option value="Prison Program" data-id="Prison Program">
+        <option class="Paypal programSelect" name="Prison Program" value="Prison Program" data-id="Prison Program">
           IBS Prison Program (監獄弘法
         </option>
-        <option value="Nepal Emergency Relief" data-id="Nepal Emergency Relief">
+        <option class="Paypal programSelect" name="Nepal Emergency Relief" value="Nepal Emergency Relief" data-id="Nepal Emergency Relief">
           Nepal Medical Emergency Relief ( 尼泊爾醫療急難救援
         </option>
-        <option
-          value="Sramanera School of Nepal"
-          data-id="Sramanera School of Nepal"
-        >
+        <option class="Paypal programSelect" name="Sramanera School of Nepalf" value="Sramanera School of Nepal" data-id="Sramanera School of Nepal">
           IBS Sramanera School of Nepal (尼泊爾菩薩沙彌學院)
         </option>
-        <option
-          value="Monastic Living Expenses"
-          data-id="Monastic Living Expenses"
-        >
+        <option class="Paypal programSelect"  name="Monastic Living Expenses" value="Monastic Living Expenses" data-id="Monastic Living Expenses">
           Monastic Living Expenses　(供養法師)
         </option>
       </select>
     </div>
+   
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        <input type="hidden" name="cmd" value="_cart">
+        <input type="hidden" name="upload" value="1">
+        <input type="hidden" name="business" value="seller@dezignerfotos.com">
+        <input type="hidden" name="No Prgram Selected" value="No Prgram Selected">           
+        <input type="hidden" name="Prison Program" value="Prison Program">
+        <input type="hidden" name="Nepal Emergency Relief" value="Nepal Emergency Relief">
+        <input type="hidden" name="Sramanera School of Nepalf" value="Sramanera School of Nepalf">
+        <input type="hidden" name="Monastic Living Expenses" value="Monastic Living Expenses">
+  </form>
+
 
     <label style="float: left" for="amount" class="mb-2">
       <p class="support-p"><strong>Any Amount*</strong></p>
@@ -84,11 +91,13 @@
       //One click function to get data (amount)
       $(".Paypal").click(function () {
         $("#amount").val($(this).data("id"));
+        $('.prgramSelect').val($(this).data("id"));
+
         //Call pay function again so the value is update as well for paypal.
         Pay();
       });
 
-      let = programs = "";
+      var programSelect = "";
       var amount = 0;
 
       function Pay() {
@@ -96,7 +105,6 @@
         amount = parseInt($("#amount").val()); //Get value as int with parseInt
         console.log(amount);
       }
-
       // Render the PayPal button into #paypal-button-container
       paypal
         .Buttons({
@@ -108,6 +116,7 @@
                   amount: {
                     value: amount,
                   },
+                  description: programSelect
                 },
               ],
             });
