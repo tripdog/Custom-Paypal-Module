@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+      integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=ATRpb7qwKVe802ScEBXewSlZEzVfK0LJwBpn5AI7orX96kziTQw4CvrOler2sR4H-rIN4aL_dPvtCg2l&currency=USD"></script>
+
+    <title>IBS Donation Form</title>
+  </head>
+  <body>
+    <h4 class="text-style-news">Paypal Payment Platform</h4>
+    <button
+      class="btn btn-sm btn-danger Paypal"
+      data-id="10"
+      style="margin-right: 15px"
+    >
+      $50
+    </button>
+    <button
+      class="btn btn-sm btn-danger Paypal"
+      data-id="20"
+      style="margin-right: 15px"
+    >
+      $100
+    </button>
+    <button
+      class="btn btn-sm btn-danger Paypal"
+      data-id="50"
+      style="margin-right: 15px"
+    >
+      $500
+    </button>
+    <button class="btn btn-sm btn-danger Paypal" data-id="100">$100</button>
+    <div class="options">
+      <label for="pet-select">Choose a program to support (optional)</label>
+      <select id="programSelect">
+        <option value="No Prgram Selected" data-id="No Prgram Selected">
+          --(Optional) Use this donation for--
+        </option>
+        <option value="Prison Program" data-id="Prison Program">
+          IBS Prison Program (監獄弘法
+        </option>
+        <option value="Nepal Emergency Relief" data-id="Nepal Emergency Relief">
+          Nepal Medical Emergency Relief ( 尼泊爾醫療急難救援
+        </option>
+        <option
+          value="Sramanera School of Nepal"
+          data-id="Sramanera School of Nepal"
+        >
+          IBS Sramanera School of Nepal (尼泊爾菩薩沙彌學院)
+        </option>
+        <option
+          value="Monastic Living Expenses"
+          data-id="Monastic Living Expenses"
+        >
+          Monastic Living Expenses　(供養法師)
+        </option>
+      </select>
+    </div>
+
+    <label style="float: left" for="amount" class="mb-2">
+      <p class="support-p"><strong>Any Amount*</strong></p>
+    </label>
+    <br />
+    <br />
+    <input
+      type="number"
+      id="amount"
+      class="form-control mb-4"
+      placeholder="in $USD"
+      onchange="Pay()"
+    />
+
+    <div id="paypal-button-container"></div>
+    <br />
+
+    <script>
+      //One click function to get data (amount)
+      $(".Paypal").click(function () {
+        $("#amount").val($(this).data("id"));
+        //Call pay function again so the value is update as well for paypal.
+        Pay();
+      });
+
+      let = programs = "";
+      var amount = 0;
+
+      function Pay() {
+        //Get amount
+        amount = parseInt($("#amount").val()); //Get value as int with parseInt
+        console.log(amount);
+      }
+
+      // Render the PayPal button into #paypal-button-container
+      paypal
+        .Buttons({
+          // Set up the transaction
+          createOrder: function (data, actions) {
+            return actions.order.create({
+              purchase_units: [
+                {
+                  amount: {
+                    value: amount,
+                  },
+                },
+              ],
+            });
+          },
+          // Finalize the transaction
+          onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
+              // Show a success message to the buyer
+              alert(
+                "Donation completed by " + details.payer.name.given_name + "!"
+              );
+              location.replace("https://www.example.com/completed_success.php");
+            });
+          },
+        })
+        .render("#paypal-button-container");
+    </script>
+  </body>
+</html>
